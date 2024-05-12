@@ -1,4 +1,4 @@
-import { Client,Databases,Storage,Query } from "appwrite";
+import { Client,Databases,Storage,Query ,ID} from "appwrite";
 import conf from "../conf/conf";
 
 export class Service{
@@ -62,6 +62,25 @@ export class Service{
             return true;
         } catch (error) {
             console.log("Appwrite service ::deletePost()::",error);
+            return false;
+        }
+    }
+
+    //storage service
+    async uploadFile(file){
+        try {
+            return await this.bucket.createFile(conf.appwriteBucketId,ID.unique(),file)
+        } catch (error) {
+            console.log("Appwrite service ::uploadFile()::",error);
+            return false;
+        }
+    }
+
+    async deleteFile(fileId){
+        try {
+            return await this.bucket.deleteFile(conf.appwriteBucketId,fileId)
+        } catch (error) {
+            console.log("Appwrite service ::deleteFile()::",error);
             return false;
         }
     }
