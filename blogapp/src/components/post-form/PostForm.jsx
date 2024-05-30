@@ -55,6 +55,12 @@ export default function PostForm({post}){
                     setValue("slug",slugTransform(e.currentTarget.value),{shouldValidate:true})
                 }}
                 />
+                <RTE
+                label="Content: "
+                name="Content"
+                control={control}
+                defaultValue={getValues("content")}
+                />
 
             </div>
 
