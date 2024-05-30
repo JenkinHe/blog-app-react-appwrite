@@ -24,6 +24,40 @@ export default function PostForm({post}){
     const userData= useSelector((state)=> state.auth.userData)
     const submit =async(data)=>{}
     const slugTransform = useCallback((value)=>{
-        if()
-    })
+        if(value&&typeof value ==="string"){
+            return value.trim().toLowerCase().replace(/[^a-zA-Z\d\s]+/g,'-').replace(/\s/g,"-")
+        }
+    },[])
+
+    React.useEffect(()=>{
+        watch((value,{name})=>{
+            if(name==="title"){
+                setValue("slug",slugTransform(value.title),{shouldValidate:true})
+            }
+        })
+    },[watch,slugTransform,setValue])
+    return(
+        <form onSubmit={handleSubmit(submit)}
+        className="flex flex-wrap">
+            <div className="w-2/3 px-2">
+                <Input
+                label="Title"
+                placeholder="Title"
+                className="mb-4"
+                {...register("title",{required:true})}
+                />
+                <Input
+                label="Slug :"
+                placeholder="Slug"
+                className="mb-4"
+                {...resgister("slug",{required:true})}
+                onInput={(e)=>{
+                    setValue("slug",slugTransform(e.currentTarget.value),{shouldValidate:true})
+                }}
+                />
+
+            </div>
+
+        </form>
+    )
 }
